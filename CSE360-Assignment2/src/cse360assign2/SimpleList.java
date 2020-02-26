@@ -1,11 +1,12 @@
 package cse360assign2;
 
 /*
- * This simple list class holds 1 array of 10 integers
- * which can be counted, searched, and inputed/altered.
+ * This simple list class holds a starting array of 10 integers
+ * which can be counted, searched, expanded, and inputed/altered. 
  * 
  * 
  * @author Madeline Lewis
+ * @version 1.0
  * Class ID: 204
  * Assignment 2
  *  
@@ -30,15 +31,16 @@ public class SimpleList {
 	
 	/*
 	 * This public method adds the integer to the front of the 
-	 * array and pushed all the other integers in the array
-	 * down an index. It also updates the counter global variable.
+	 * array and pushes all the other integers in the array
+	 * down an index. When the array is full, the size
+	 * is increased by 50%. It also updates the counter global variable.
 	 * 
 	 * @param valueToBeAdded the integer value to be added to the array
 	 *  
 	 */
 	public void add(int valueToBeAdded) {
-		
-		if (count < 10) {
+		// when count = 9, the initial array is full
+		if (count < list.length) {
 			int farPlaceKeeper = count;
 			
 			for (int index = count - 1; index >= 0; index--) {
@@ -49,14 +51,28 @@ public class SimpleList {
 			list[0] = valueToBeAdded;
 			count++;
 		} else {
-			int farPlaceKeeper = 9;
+			// if the array is full
+			int oldSize = list.length;
+			int newSize = oldSize/2 + oldSize;
+			int[] newList = new int[newSize];
 			
-			for (int index = count - 2; index >= 0; index--) {
+			for (int index = 0; index < oldSize; index++) {
+				newList[index] = list[index];
+			}
+			
+			list = newList;
+			
+			
+			int farPlaceKeeper = count;
+			
+			for (int index = count - 1; index >= 0; index--) {
 				list[farPlaceKeeper] = list[index];
 				farPlaceKeeper--;
 			}
 			
 			list[0] = valueToBeAdded;
+			count++;
+			
 		}
 	}
 	
@@ -64,7 +80,8 @@ public class SimpleList {
 	/*
 	 * This method removes an integer if it was found to 
 	 * be in the array and moves the other integers down to 
-	 * fill the gap.
+	 * fill the gap. If the array is more than 25% empty,
+	 * the size is decreased by 25%.
 	 * 
 	 * @param valueToBeRemoved the integer value to be removed from the array
 	 * 
@@ -88,6 +105,21 @@ public class SimpleList {
 			count--;
 			
 			removeSpot = search(valueToBeRemoved);
+		}
+		
+		// check for decrease
+		int emptyJudge = (int) (list.length * 0.75);
+		if (count < emptyJudge) {
+			int oldSize = list.length;
+			int newSize = oldSize - oldSize/4;
+			int[] newList = new int[newSize];
+			
+			for (int index = 0; index < newSize; index++) {
+				newList[index] = list[index];
+			}
+			
+			list = newList;
+			System.out.println("list is now " + list.length);
 		}
 	}
 	
@@ -144,5 +176,7 @@ public class SimpleList {
 		
 		return indexOfValue;
 	}
+	
+
 	
 }
