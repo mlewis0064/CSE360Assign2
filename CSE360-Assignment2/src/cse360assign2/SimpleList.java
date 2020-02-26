@@ -6,7 +6,7 @@ package cse360assign2;
  * 
  * 
  * @author Madeline Lewis
- * @version 1.0
+ * @version 2.0
  * Class ID: 204
  * Assignment 2
  *  
@@ -78,6 +78,37 @@ public class SimpleList {
 	
 	
 	/*
+	 * This public method adds the integer to the end of the 
+	 * list is the array is full, the size
+	 * is increased by 50%. It also updates the counter global variable.
+	 * 
+	 * @param valueToBeAppened the integer value to be added to the array
+	 *  
+	 */
+	public void append(int valueToBeAppened) {
+		if (count < list.length) {
+			list[count] = valueToBeAppened;
+			count++;
+		} else {
+			// if the array is already full
+			int oldSize = list.length;
+			int newSize = oldSize/2 + oldSize;
+			int[] newList = new int[newSize];
+			
+			for (int index = 0; index < oldSize; index++) {
+				newList[index] = list[index];
+			}
+			
+			list = newList;
+			
+			list[count] = valueToBeAppened;
+			count++;
+		}
+		
+	}
+	
+	
+	/*
 	 * This method removes an integer if it was found to 
 	 * be in the array and moves the other integers down to 
 	 * fill the gap. If the array is more than 25% empty,
@@ -135,6 +166,28 @@ public class SimpleList {
 		return count;
 	}
 	
+	/*
+	 * This getter method returns the first element
+	 * of the list.
+	 * 
+	 * @return int the first element of the list
+	 * 
+	 */
+	public int first() {
+		return list[0];
+	}
+	
+	/*
+	 * This method returns the overall size (possible locations)
+	 * of the list.
+	 * 
+	 * @return int representing the total number of integers that can be in the list
+	 * 
+	 */
+	public int size() {
+		return list.length;
+	}
+	
 	
 	/*
 	 * This standard method returns the integer array as a string with spaces.
@@ -177,6 +230,5 @@ public class SimpleList {
 		return indexOfValue;
 	}
 	
-
 	
 }
